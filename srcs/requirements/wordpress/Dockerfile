@@ -23,15 +23,15 @@ RUN	mkdir -p /var/www/wordpress /usr/local/bin/wp
 
 RUN	curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 			--output /usr/bin/wp --silent
-RUN	chmod u+x ./usr/bin/wp
+RUN	chmod +x ./usr/bin/wp
 
 # ---------- WORDPRESS ---------
 
 RUN		wp core download --version=5.9.3
-WORKDIR	/var/www/wordpress
+WORKDIR		/var/www/wordpress
 
-COPY	conf/wp-config /conf/wp-config
-COPY	./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN		chmod u+x /usr/local/bin/entrypoint.sh
+COPY		conf/wp-config /config/wp-config
+COPY		./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN		chmod +x /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]

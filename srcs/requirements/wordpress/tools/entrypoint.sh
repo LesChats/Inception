@@ -20,7 +20,7 @@ if [ $? -eq 0 ]; then
 fi
 
 if [ ! -f "wp-config.php" ]; then
-	cp /conf/wp-config ./wp-config.php
+	cp /config/wp-config ./wp-config.php
 	sleep 1;
 	if ! mysqladmin -h $MARIADB_HOST -u $MARIADB_USER \
 		--password=$MARIADB_PWD --wait=60 ping > /dev/null; then
