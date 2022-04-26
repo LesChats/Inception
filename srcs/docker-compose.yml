@@ -4,14 +4,14 @@ volumes:
   mariadb-volume:
     driver: local
     driver_opts:
-      device: /home/${USER}/data/database
+      device: /home/user/data/database
       type: volume
       o: bind
 
   wordpress-volume:
     driver: local
     driver_opts:
-      device: /home/${USER}/data/wordpress
+      device: /home/user/data/wordpress
       type: volume
       o: bind
 
@@ -22,41 +22,41 @@ networks:
 
 services:
   nginx:
-    container_name: _nginx
+    container_name: nginx_42
     build:
       context: ./requirements/nginx
-    image: __nginx
+    image: im_nginx
     volumes:
       - wordpress-volume:/var/www/wordpress
     networks:
       - nginx-network
     ports:
-      "443:443"
+      - "443:443"
     restart: unless-stopped
 
   mariadb:
-    container_name: _mariadb
+    container_name: mariadb_42
     build:
       context: ./requirements/mariadb
-    image: __mariadb
+    image: im_mariadb
     volumes:
       - mariadb-volume:/var/lib/mysql
     networks:
       - mariadb-network
     environment:
       - MARIADB_ROOT_PWD=${MARIADB_ROOT_PWD}
-      - MARIADB_DS=${MARIADB_DS}
+      - MARIADB_DB=${MARIADB_DB}
       - MARIADB_USER=${MARIADB_USER}
       - MARIADB_PWD=${MARIADB_PWD}
     restart: unless-stopped
 
   wordpress:
-    container_name: _wordpress
+    container_name: wordpress_42
     depends_on:
       - mariadb
     build:
       context: ./requirements/wordpress
-    image: __wordpress
+    image: im_wordpress
     volumes:
       - wordpress-volume:/var/www/wordpress
     networks:
@@ -64,26 +64,26 @@ services:
       - mariadb-network
       - redis-network
     environment:
-      WP_URL=${WP_URL}
-      WP_DATABASE=${WP_DATABASE}
-      WP_TITLE=${WP_TITLE}
-      WP_ADMIN_USER=${WP_ADMIN_USER}
-      WP_ADMIN_PWD=${WP_ADMIN_PWD}
-      WP_ADMIN_MAIL=${WP_ADMIN_MAIL}
-      WP_USER_PWD=${WP_USER_PWD}
-      WP_USER=${WP_USER}
-      WP_USER_MAIL=${WP_USER_MAIL}
-      MARIADB_HOST=${MARIADB_HOST}
-      MARIADB_USER=${MARIADB_USER}
-      MARIADB_PWD=${MARIADB_PWD}
-      MARIADB_DB=${MARIADB_DB}
+      - WP_URL=${WP_URL}
+      - WP_DATABASE=${WP_DATABASE}
+      - WP_TITLE=${WP_TITLE}
+      - WP_ADMIN_USER=${WP_ADMIN_USER}
+      - WP_ADMIN_PWD=${WP_ADMIN_PWD}
+      - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
+      - WP_USER_PWD=${WP_USER_PWD}
+      - WP_USER=${WP_USER}
+      - WP_USER_EMAIL=${WP_USER_EMAIL}
+      - MARIADB_HOST=${MARIADB_HOST}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PWD=${MARIADB_PWD}
+      - MARIADB_DB=${MARIADB_DB}
     restart: unless-stopped
 
   redis:
-    container_name: _redis
+    container_name: redis_42
     build:
       context: ./requirements/bonus/redis
-    image: __redis
+    image: im_redis
     networks:
       - redis-network
     restart: unless-stopped

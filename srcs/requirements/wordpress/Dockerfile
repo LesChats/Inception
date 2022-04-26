@@ -13,10 +13,9 @@
 FROM	alpine:3.14
 
 RUN	apk update
-RUN	apk add --no-cache --quiet --update bash curl less
-RUN	apk add --no-cache --quiet --update mariadb-client redis
-RUN	apk add --no-cache --quiet --upadte php7 php7-fpm php7-phar php7-mysqli \
-						php7-curl php7-json php7-iconv
+RUN	apk add --no-cache -q -u bash curl less
+RUN	apk add --no-cache -q -u mariadb-client redis
+RUN	apk add --no-cache -q -u php7 php7-fpm php7-phar php7-mysqli php7-curl php7-json php7-iconv
 
 RUN	mkdir -p /var/www/wordpress /usr/local/bin/wp
 
@@ -33,6 +32,6 @@ WORKDIR	/var/www/wordpress
 
 COPY	conf/wp-config /conf/wp-config
 COPY	./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN		chmod u+x /usr/local/bin/entrypoint/.sh
+RUN		chmod u+x /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]

@@ -17,11 +17,12 @@ RUN	apk add --no-cache --quiet --update nginx
 RUN	apk add --no-cache --quiet --update openssl
 
 # ------------ OPENSSL -------------
-RUN	mkdir -p /ect/nginx/ssl
+ARG	ssl_dir="/ect/nginx/ssl"
+RUN	mkdir -p $ssl_dir
 
 #man x509 --- SSL CERTIF
-RUN	openssl req -x509 -nodes -out /etc/nginx/ssl/abaudot.42.fr.crt \
-	-keyout /etc/nginx/ssl/abaudot.42.fr.key -subj \
+RUN	openssl req -x509 -nodes -out $ssl_dir/abaudot.42.fr.crt \
+	-keyout $ssl_dir/abaudot.42.fr.key -subj \
 	"/C=FR/ST=IDF/L=Paris/O=42/CN=abaudot.42.fr/UID=abaudot"
 
 # ----------- NGINX -----------------
@@ -29,7 +30,7 @@ RUN		mkdir -p /var/run/nginx
 COPY	config/nginx.conf /etc/nginx/conf.d/default.conf
 
 # symbolic link (redirection)
-RUN		ln-sf /dev/stdout /var/log/nginx/access.log \
+RUN		ln -sf /dev/stdout /var/log/nginx/access.log \
 		&& ln -sf /dev/stderr /var/log/nginx/error.log
 
 # tier network: port: 443
