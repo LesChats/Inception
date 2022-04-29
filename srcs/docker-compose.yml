@@ -1,48 +1,49 @@
 version: "3.9" #optional
+# definition of service, volumes and networks
 
+# docker volume ls
 volumes:
   mariadb-volume:
     driver: local
     driver_opts:
-      device: /home/${V_USER}/data/database
+      device: /home/${USER}/data/database
       type: volume
       o: bind
-
   wordpress-volume:
     driver: local
     driver_opts:
-      device: /home/${V_USER}/data/wordpress
+      device: /home/${USER}/data/wordpress
       type: volume
       o: bind
 
+# docker network ls
 networks:
-  mariadb-network:
-  nginx-network:
-  redis-network:
+  frontend:
+  backend:
 
 services:
   nginx:
-    container_name: nginx_42
+    container_name: nginx
     build:
       context: ./requirements/nginx
-    image: im_nginx
+    image: img_nginx
     volumes:
       - wordpress-volume:/var/www/wordpress
     networks:
-      - nginx-network
+      - frontend
     ports:
       - "443:443"
     restart: unless-stopped
 
   mariadb:
-    container_name: mariadb_42
+    container_name: mariadb
     build:
       context: ./requirements/mariadb
-    image: im_mariadb
+    image: img_mariadb
     volumes:
       - mariadb-volume:/var/lib/mysql
     networks:
-      - mariadb-network
+      - backend
     environment:
       - MARIADB_ROOT_PWD=${MARIADB_ROOT_PWD}
       - MARIADB_DB=${MARIADB_DB}
@@ -51,18 +52,17 @@ services:
     restart: unless-stopped
 
   wordpress:
-    container_name: wordpress_42
+    container_name: wordpress
     depends_on:
       - mariadb
     build:
       context: ./requirements/wordpress
-    image: im_wordpress
+    image: img_wordpress
     volumes:
       - wordpress-volume:/var/www/wordpress
     networks:
-      - nginx-network
-      - mariadb-network
-      - redis-network
+      - frontend
+      - backend
     environment:
       - WP_URL=${WP_URL}
       - WP_DATABASE=${WP_DATABASE}
@@ -80,10 +80,28 @@ services:
     restart: unless-stopped
 
   redis:
-    container_name: redis_42
+    container_name: redis
     build:
       context: ./requirements/bonus/redis
-    image: im_redis
+    image: img_redis
     networks:
-      - redis-network
+      - backend
+    restart: unless-stopped
+
+  ftp-server:
+    container_name: ftp
+    build:
+      context: ./requirements/bonus/ftp_serv
+
+    image: img_ftp
+    volumes:
+      - wordpress-volume:/var/www/wordpress
+    environment:
+      - FTP_USER=${FTP_USER}
+      - FTP_PWD=${FTP_PWD}
+      - FTP_ROOT=${FTP_ROOT}
+    ports:
+      - "21:21"
+    networks:
+      - backend
     restart: unless-stopped

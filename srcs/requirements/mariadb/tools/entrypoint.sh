@@ -12,14 +12,13 @@ cat .setup 2> /dev/null
 if [ $? -ne 0 ]; then
 	usr/bin/mysqld_safe --datadir=/var/lib/mysql &
 
-	# app config
-	sed -i "s/skip-networking/# skip-networking/g" /etc/my.cnf.d/mariadb-server.cnf
-	sed -i "s|.*bind-address=.*|bind-address=0.0.0.0\nport=3306|g" /etc/my.cnf.d/mariadb-server.cnf
+	# Apply config
+	sed -i "s|skip-networking|# skip-networking|g" /etc/my.cnf.d/mariadb-server.cnf
+	sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0\nport=3306|g" /etc/my.cnf.d/mariadb-server.cnf
 
-	#conf Mariadb default base
-
-	if !mysqladmin --wait=30 ping; then
-		echo "Unable to reach Mariadb"
+	# --- waing for data base to be reachable
+	if ! mysqladmin --wait=30 ping; then
+		printf "Unable to reach mariadb\n"
 		exit 1
 	fi
 
@@ -27,5 +26,5 @@ if [ $? -ne 0 ]; then
 	pkill mariadb
 	touch .setup
 fi
-
+# secur lauch of mysql server
 usr/bin/mysqld_safe --datadir=/var/lib/mysql

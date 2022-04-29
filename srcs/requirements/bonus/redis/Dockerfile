@@ -12,10 +12,10 @@
 
 FROM alpine:3.14
 
-RUN		apk update
-RUN		apk add --no-cache --quiet --update redis
+RUN		apk update && apk upgrade && apk add --no-cache -q -u \
+		redis
 
-COPY	./tools/entrypoint.sh ./entrypoint.sh
-RUN		chmod u+x ./entrypoint.sh
+COPY		tools/entrypoint.sh /tmp/entrypoint.sh
+RUN		chmod +x /tmp/entrypoint.sh
 
-ENTRYPOINT [ "sh", "./entrypoint.sh"]
+ENTRYPOINT [ "sh", "/tmp/entrypoint.sh"]

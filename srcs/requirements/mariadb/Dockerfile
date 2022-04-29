@@ -12,16 +12,22 @@
 
 FROM	alpine:3.14
 
-RUN		apk update
-RUN		apk add --no-cache -q -u mariadb mariadb-client
+# ------ ADD -----
+RUN		apk update && apk upgrade && apk add --no-cache -q -u \
+		mariadb \
+		mariadb-client
 
+# ---- daemon directory ----
 RUN		mkdir -p /var/lib/mysqld /run/mysqld
+
+# ---- cpopy data base script
 COPY		./conf/create_db.sql /tmp/create_db.sql
+# ---- copy endpoint script
 COPY		./tools/entrypoint.sh ./
 
+# install mariadb and configuration
 RUN		mariadb-install-db --datadir=/var/lib/mysql \
-			--auth-root-authentication-method=normal
-
-RUN		chown -R mysql:mysql /var/lib/mysql /run/mysqld
+			--auth-root-authentication-method=normal\
+		&& chown -R mysql:mysql /var/lib/mysql /run/mysqld
 
 ENTRYPOINT ["sh", "entrypoint.sh"]

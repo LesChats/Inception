@@ -10,36 +10,24 @@
 #                                                                              #
 # **************************************************************************** #
 
+# last version is 3.15
 FROM alpine:3.14
 
-# ---------- APK AD ----------------
-RUN	apk update
-RUN	apk add --no-cache -q -u nginx
-RUN	apk add --no-cache -q -u openssl
-#RUN	apk add --no-cache -q -u wget
+# ---------- APK ADD ----------------
+RUN	apk update && apk upgrade && apk add --no-cache -q -u \
+	nginx openssl
 
 # ------------ OPENSSL -------------
-#ARG	ssl_dir="/etc/nginx/ssl"
-RUN	mkdir -p /etc/nginx/ssl
+# certificat/key creation
+RUN	mkdir -p /etc/nginx/ssl \
+	&& openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+        -out /etc/nginx/ssl/abaudot.42.fr.crt\
+        -keyout /etc/nginx/ssl/abaudot.42.fr.key \
+        -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=abaudot.42.fr/UID=abaudot"
 
-#man x509 --- SSL CERTIF
-
-#RUN	openssl req -x509 -nodes \
-#	-out /etc/nginx/ssl/abaudot.42.fr.crt \
-#	-keyout /etc/nginx/ssl/abaudot.42.fr.key \
-#	-subj "/C=FR/ST=IDF/L=Paris/O=42/CN=abaudot.42.fr/UID=abaudot"
-
-RUN		openssl dhparam 2048 -out /etc/nginx/certs/dhparam.pem
-#RUN		wget -O /etc/nginx/certs/lets-encrypt-x3-cross-signed.pem \
-#		"https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem"
-
-#RUN	cat /etc/nginx/ssl/abaudot.42.fr.key
-#RUN	echo "-------------------------"
-#RUN	cat /etc/nginx/ssl/abaudot.42.fr.crt
 # ----------- NGINX -----------------
 RUN		mkdir -p /var/run/nginx
-COPY		conf/nginx.conf /etc/nginx/conf.d/default.conf
-RUN		cat /etc/nginx/conf.d/default.conf
+COPY		conf/nginx.conf /etc/nginx/http.d/default.conf
 
 # symbolic link (redirection)
 RUN		ln -sf /dev/stdout /var/log/nginx/access.log \
@@ -48,4 +36,5 @@ RUN		ln -sf /dev/stdout /var/log/nginx/access.log \
 # tier network: port: 443
 EXPOSE 443
 
+# lauch nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]
