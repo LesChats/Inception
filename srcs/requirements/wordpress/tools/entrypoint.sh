@@ -36,16 +36,16 @@ if [ ! -f "wp-config.php" ]; then
 	wp core install --url="$WP_URL" --title="$WP_TITLE" --admin_user="$WP_ADMIN_USER" \
 		--admin_password="$WP_ADMIN_PWD" --admin_email="$WP_ADMIN_EMAIL" --skip-email
 	wp theme install inspiro --activate
-	wp theme enable inspiro
-	wp theme update inspiro
-
-	# add redis cache handler
-	wp plugin install redis-cache --activate
-	wp redis enable
-	wp plugin update --all
+	# wp theme enable inspiro
+	# wp theme update inspiro
 
 	wp user create $WP_USER $WP_USER_EMAIL --role=author --user_pass=$WP_USER_PWD
 
+	# add redis cache handler
+	wp plugin install redis-cache --activate
+	wp plugin update --all
+
 fi
 
+wp redis enable
 php-fpm7 --nodaemonize

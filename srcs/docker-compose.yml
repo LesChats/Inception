@@ -6,13 +6,13 @@ volumes:
   mariadb-volume:
     driver: local
     driver_opts:
-      device: /home/${USER}/data/database
+      device: /home/user/data/database
       type: volume
       o: bind
   wordpress-volume:
     driver: local
     driver_opts:
-      device: /home/${USER}/data/wordpress
+      device: /home/user/data/wordpress
       type: volume
       o: bind
 
@@ -104,4 +104,23 @@ services:
       - "21:21"
     networks:
       - backend
+    restart: unless-stopped
+
+  adminer:
+    container_name: adminer
+    depends_on:
+      - mariadb
+    build:
+      context: ./requirements/bonus/adminer
+    image: img_adminer
+    volumes:
+      - wordpress-volume:/var/www/wordpress
+    networks:
+      - frontend
+      - backend
+    environment:
+      - MARIADB_HOST=${MARIADB_HOST}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PWD=${MARIADB_PWD}
+      - MARIADB_DB=${MARIADB_DB}
     restart: unless-stopped
