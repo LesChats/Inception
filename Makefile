@@ -63,3 +63,5 @@ fclean	:	clean
 #
 #	Cleanup environnement and rebuild everything.
 .PHONY	:	re
+re: fclean
+	make all

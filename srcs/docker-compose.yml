@@ -15,11 +15,18 @@ volumes:
       device: /home/user/data/wordpress
       type: volume
       o: bind
+  monitoring-volume:
+    driver: local
+    driver_opts:
+      device: /home/user/data/monitoring
+      type: volume
+      o: bind
 
 # docker network ls
 networks:
   frontend:
   backend:
+  monitoring:
 
 services:
   nginx:
@@ -123,4 +130,58 @@ services:
       - MARIADB_USER=${MARIADB_USER}
       - MARIADB_PWD=${MARIADB_PWD}
       - MARIADB_DB=${MARIADB_DB}
+    restart: unless-stopped
+
+  cadvisor:
+    container_name: cadvisor
+    build:
+      context: ./requirements/bonus/cadvisor
+    image: img_cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    networks:
+        - monitoring
+    command:
+      - '-port=${CADVISOR_PORT}'
+      - '-url_base_prefix=${CADVISOR_URL_BASE_PREFIX}'
+    restart: unless-stopped
+
+  prometheus:
+    container_name: prometheus
+    build:
+      context: ./requirements/bonus/prometheus
+    image: img_prometheus
+    volumes:
+      - monitoring-volume:/monitor
+    networks:
+      - monitoring
+    environment:
+      - CADVISOR_PORT=${CADVISOR_PORT}
+      - PROMETHEUS_PORT=${PROMETHEUS_PORT}
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/monitor/prometheus'
+      - '--storage.tsdb.retention=200h'
+      - '--web.listen-address=:${PROMETHEUS_PORT}'
+    restart: unless-stopped
+
+  grafana:
+    container_name: grafana
+    build:
+      context: ./requirements/bonus/grafana
+    image: img_grafana
+    volumes:
+      - monitoring-volume:/monitor
+    networks:
+        - nginx-network
+        - monitoring-network
+    environment:
+      - PROMETHEUS_PORT=${PROMETHEUS_PORT}
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     restart: unless-stopped
