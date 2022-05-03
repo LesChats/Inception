@@ -177,8 +177,8 @@ services:
     volumes:
       - monitoring-volume:/monitor
     networks:
-        - nginx-network
-        - monitoring-network
+        - frontend
+        - monitoring
     environment:
       - PROMETHEUS_PORT=${PROMETHEUS_PORT}
       - GF_AUTH_DISABLE_LOGIN_FORM=true
