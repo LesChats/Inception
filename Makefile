@@ -7,7 +7,7 @@
 SRCS 			:= ./srcs
 DOCKER			:= sudo docker
 COMPOSE 		:= cd srcs/ && sudo docker-compose
-DATA_PATH 		:= /home/${USER}/data
+DATA_PATH 		:= /home/abaudot/data
 
 all		:	build
 	sudo mkdir -p $(DATA_PATH)

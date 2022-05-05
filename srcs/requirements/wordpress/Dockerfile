@@ -16,7 +16,7 @@ FROM	alpine:3.14
 RUN	apk update && apk upgrade && apk add --no-cache -q -u bash curl less \
 	mariadb-client redis \
 	php7 php7-fpm php7-phar php7-mysqli php7-curl php7-json php7-iconv \
-	&& mkdir -p /var/www/wordpress
+	&& mkdir -p /var/www/wordpress /usr/local/bin/wp
 
 # php config
 #RUN	adduser -S nginx && addgroup -S nginx

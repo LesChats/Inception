@@ -42,10 +42,11 @@ if [ ! -f "wp-config.php" ]; then
 	wp user create $WP_USER $WP_USER_EMAIL --role=author --user_pass=$WP_USER_PWD
 
 	# add redis cache handler
+#	wp plugin install redis-cache --activate --allow-root
 	wp plugin install redis-cache --activate
 	wp plugin update --all
+#	wp redis enable --allow-root
+	wp redis enable
 
 fi
-
-wp redis enable
 php-fpm7 --nodaemonize

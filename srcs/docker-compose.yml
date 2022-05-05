@@ -6,19 +6,19 @@ volumes:
   mariadb-volume:
     driver: local
     driver_opts:
-      device: /home/user/data/database
+      device: /home/abaudot/data/database
       type: volume
       o: bind
   wordpress-volume:
     driver: local
     driver_opts:
-      device: /home/user/data/wordpress
+      device: /home/abaudot/data/wordpress
       type: volume
       o: bind
   monitoring-volume:
     driver: local
     driver_opts:
-      device: /home/user/data/monitoring
+      device: /home/abaudot/data/monitoring
       type: volume
       o: bind
 
@@ -27,13 +27,14 @@ networks:
   frontend:
   backend:
   monitoring:
+  redis-net:
 
 services:
   nginx:
     container_name: nginx
     build:
       context: ./requirements/nginx
-    image: img_nginx
+    image: nginx
     volumes:
       - wordpress-volume:/var/www/wordpress
     networks:
@@ -46,7 +47,7 @@ services:
     container_name: mariadb
     build:
       context: ./requirements/mariadb
-    image: img_mariadb
+    image: mariadb
     volumes:
       - mariadb-volume:/var/lib/mysql
     networks:
@@ -64,12 +65,13 @@ services:
       - mariadb
     build:
       context: ./requirements/wordpress
-    image: img_wordpress
+    image: wordpress
     volumes:
       - wordpress-volume:/var/www/wordpress
     networks:
       - frontend
       - backend
+      - redis-net
     environment:
       - WP_URL=${WP_URL}
       - WP_DATABASE=${WP_DATABASE}
@@ -90,9 +92,9 @@ services:
     container_name: redis
     build:
       context: ./requirements/bonus/redis
-    image: img_redis
+    image: redis
     networks:
-      - backend
+      - redis-net
     restart: unless-stopped
 
   ftp-server:
@@ -100,7 +102,7 @@ services:
     build:
       context: ./requirements/bonus/ftp_serv
 
-    image: img_ftp
+    image: ftp
     volumes:
       - wordpress-volume:/var/www/wordpress
     environment:
@@ -119,7 +121,7 @@ services:
       - mariadb
     build:
       context: ./requirements/bonus/adminer
-    image: img_adminer
+    image: adminer
     volumes:
       - wordpress-volume:/var/www/wordpress
     networks:
@@ -136,7 +138,7 @@ services:
     container_name: cadvisor
     build:
       context: ./requirements/bonus/cadvisor
-    image: img_cadvisor
+    image: cadvisor
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
@@ -154,7 +156,7 @@ services:
     container_name: prometheus
     build:
       context: ./requirements/bonus/prometheus
-    image: img_prometheus
+    image: prometheus
     volumes:
       - monitoring-volume:/monitor
     networks:
@@ -173,7 +175,7 @@ services:
     container_name: grafana
     build:
       context: ./requirements/bonus/grafana
-    image: img_grafana
+    image: grafana
     volumes:
       - monitoring-volume:/monitor
     networks:
@@ -190,7 +192,7 @@ services:
     container_name: website
     build:
       context: ./requirements/bonus/website
-    image:  img_website
+    image:  website
     networks:
       - frontend
     ports:

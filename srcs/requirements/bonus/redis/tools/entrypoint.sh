@@ -9,12 +9,9 @@
 ######################################################################
 
 conf_file="/etc/redis.conf"
-grep -E "bin 127.0.0.1" $conf_file > /dev/null 2>&1
-
+grep -E "bind 127.0.0.1" $conf_file > /dev/null 2>&1
 if [ $? -eq 0 ]; then
-	sed -"s|bin 127.0.0.1|bind 0.0.0.0|g" $conf_file
-	sed -i "s|# maxmemory <bytes>|maxmemory 2mb|g" $conf_file
-    	sed -i "s|# maxmemory-policy noeviction|maxmemory-policy allkeys-lru|g" $conf_file
+	sed -i "s|bind 127.0.0.1|bind 0.0.0.0|g" $conf_file
 fi
 
 grep -E "protected-mode yes" $conf_file > /dev/null 2>&1
@@ -23,4 +20,3 @@ if [ $? -eq 0 ]; then
 fi
 
 redis-server /etc/redis.conf
-
