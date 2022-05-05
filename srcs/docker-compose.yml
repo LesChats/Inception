@@ -185,3 +185,14 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     restart: unless-stopped
+
+  website:
+    container_name: website
+    build:
+      context: ./requirements/bonus/website
+    image:  img_website
+    networks:
+      - frontend
+    ports:
+      - "7777:7777"
+    restart:  unless-stopped

@@ -14,10 +14,9 @@ all		:	build
 	sudo mkdir -p $(DATA_PATH)/monitoring
 	sudo mkdir -p $(DATA_PATH)/wordpress
 	sudo mkdir -p $(DATA_PATH)/database
-	sudo mkdir -p $(DATA_PATH)/cv
 ifeq ("$(wildcard .ok)","")
 	@ printf "[\033[0;32m+\033[m] Applying DNS redirection\n"
-	sudo chmod 755 /etc/hosts
+	sudo chmod 777 /etc/hosts
 	sudo echo "127.0.0.1 abaudot.42.fr" >> /etc/hosts
 	touch .ok
 endif

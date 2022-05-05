@@ -1,0 +1,531 @@
+/******general******/
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    font-family: 'Raleway', sans-serif;
+    color:#222121
+}
+#container{
+    margin: auto;
+    min-width: 992px;
+    max-width: 1200px;
+}
+#container, header, nav ul, nav ul li, a, #searchbar, #location, #filters, #filterList, .cart, 
+.circle, #more, #info, #accommodations, article, .flex-container, figure, figcaption, .bluestar, 
+.graystar, aside h2, #activities, .column, footer{
+    display: flex;
+}
+#container, header, #searchbar, #filters, #filterList, #more, article .flex-container, aside .flex-container, #activities .flex-container, 
+nav ul li, footer{
+    flex-wrap: wrap;
+}
+header, main{
+    justify-content: space-between;
+    margin: 0px 30px 0px 30px;
+    width: 100%;
+}
+article, aside, footer{
+    background-color: #F2F2F2;
+}
+h1, h2{
+    margin: 10px 0 10px 0;
+}
+h2{
+    font-size: large;
+    padding: 0 15px;
+}
+ul{
+    list-style-type: none;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+figure{
+    margin: 10px;
+    background-color: white;
+    font-size: 75%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    overflow: hidden;
+    flex-basis: auto;
+}
+figure img{
+    object-fit: cover;
+    border-radius: 15px 15px 0px 0px;
+    width: 100%;
+    height: auto;
+}
+figure figcaption{
+    padding: 5px;
+    flex-direction: column;
+}
+
+/*****header*****/
+#logo{
+    padding: 30px 0 0 0;
+}
+#logo img{
+    height: 50px;
+}
+nav ul li{
+    width: auto;
+    border-top: 2px solid white;
+    text-align: center;
+    padding: 30px;
+}
+nav ul li:hover{
+    color:#0065FC;
+    border-top: 2px solid #0065FC;
+}
+
+/*****search*****/
+#search p{
+    padding: 5px 0 20px 0;
+}
+#searchbar {
+    padding-bottom: 20px;
+    align-items: baseline;
+}
+#location {
+    background-color: #F2F2F2;
+    width: 40px;
+    height: 39px;
+    border-radius: 15px 0px 0px 15px;
+    border-bottom: 3px solid #F2F2F2;
+    justify-content: center;
+    align-items: center;
+}
+input{
+    height: 39px;
+    border: 1px solid #F2F2F2;
+}
+::placeholder{
+    color: black;
+    font-weight: bold;
+    font-family: 'Raleway', sans-serif;
+    width: auto;
+    padding : 10px;
+}
+button{
+    background-color: #0065FC;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    height: 40px;
+    width: auto;
+    padding: 10px;
+    font-family: 'Raleway', sans-serif;
+    border-radius: 0px 15px 15px 0px;
+    border: 1px solid #0065FC;
+    margin: -5px;
+    cursor: pointer;
+}
+.fa-search{
+    display: none;
+}
+
+/*****filters*****/
+#filters{
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+}
+#filters p{
+    padding: 10px; 
+    font-weight: bold;
+}
+.cart{
+    margin: 10px;
+    border: 2px solid #F2F2F2;
+    border-radius: 25px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.cart:hover{
+    background-color: #DEEBFF;
+}
+.circle{
+    color: #0065FC;
+    width: 40px;
+    height: 40px;
+    background-color: #DEEBFF;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    margin-left: -2px;
+}
+
+/*****more*****/
+#info{
+    background-color: white;
+    color: #0065FC;
+    border: 1px solid #F2F2F2;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    font-size: small;
+}
+#more{
+    align-items: baseline;
+}
+#more p{
+    margin-left: 10px;
+}
+
+/*****accommodations*****/
+#accommodations{
+    justify-content: space-around;
+    margin-bottom: 20px;
+    width: 100%;
+}
+#accommodations h3, #accommodations p, #accommodations .bluestar {
+    padding: 3px;
+}
+.bluestar{
+    color: #0065FC;
+}
+.graystar{
+    color: #F2F2F2;
+}
+
+/****article****/
+article{
+    flex-flow: column;
+    border-radius: 15px;
+    padding: 20px;
+}
+article p a{
+    font-weight: bold;
+    margin: 25px 0 0 15px;
+}
+article .flex-container{
+    align-items: stretch;
+    justify-content:center;
+}
+article figure{
+    flex-direction: column;
+    border-radius: 15px;
+    border: solid white;
+    width: 190px;
+    max-width: 250px;
+    height: 160px;
+    margin : 15px;
+}
+article img{
+    height: 100px;
+}
+article figcaption{
+    font-size: smaller;
+    height: 50px;
+}
+
+/****aside****/
+aside{
+    flex-flow: column;
+    border-radius: 10px;
+    padding: 20px;
+    margin-left: 25px;
+    max-width: 350px;
+}
+aside h2{
+    justify-content: space-between;
+    padding: 0 20px 0 20px;
+}
+aside .flex-container{
+    flex-wrap: wrap;    
+    justify-content: center;
+}
+aside figure{
+    border-radius: 15px;
+    border: solid white;
+    width: 300px;
+    height: 120px;
+    margin: 15px;
+}
+aside figure img{
+    border-radius: 15px 0px 0px 15px;
+    max-width: 120px;
+}
+aside figcaption{
+    margin : 5px 10px;
+}
+aside .bluestar{
+    margin-top: 30px;
+}
+
+/****activities****/
+#activities{
+    flex-flow: column;
+    margin: 40px 0 40px 0;
+}
+#activities figure{
+    flex-direction: column;
+    justify-content: space-around;
+    width: 245px;
+    border-radius: 15px;
+    padding: 0;
+    margin: 18px;
+}
+#activities figure figcaption{
+    height: 40px;
+    justify-content: center;
+    margin-left: 10px;
+}
+#activities .column{
+    flex-direction: column;
+    align-content: center;
+}
+a .large img{
+    height: 365px;
+}
+a .medium img{
+    height: 160px;
+}
+a .small img{
+    height: 120px;
+}
+
+/*****footer*****/
+footer{
+    padding: 0px 0px 0px 30px;
+    width: 100%;
+}
+footer p{
+    padding:0px;
+    font-weight: bold;
+}
+footer .category{
+    padding: 40px 0 20px 0 ;
+    margin: 10px 150px 10px 10px;
+}
+footer .category ul{
+    padding-top: 10px ;
+}
+footer .category li{
+    margin-top: 10px;
+}
+/*******************************responsive***********************************/
+
+/*****tablets*****/
+@media (max-width:991px) and (min-width: 768px){
+    #container{
+        margin: 0;
+        max-width: 991px;
+        min-width: 768px;
+        width:100%;
+    }
+    header{
+        margin: 10px;
+    }
+    main{
+        margin: 0;
+    }
+    #logo{
+        padding-top: 15px;
+    }
+    #search{
+        margin-left : 15px;
+    }
+    #accommodations{
+        flex-wrap: wrap;
+        flex-direction: column-reverse;
+        justify-content: center;
+    }
+    article{
+        background-color: white;
+    }
+    article figure{
+        width:500px;
+    }
+    aside{
+        max-width: 100%;
+        margin-left: 0;
+        border-radius: 0;
+    }
+    aside .flex-container{
+        justify-content: center;
+    }
+    #activities figure{
+        text-align: center;
+        justify-content: center;
+        width: 220px;
+    }
+    #activities h2{
+        margin-left: 20px;
+    }
+    #activities .flex-container{
+        justify-content: center;
+    }
+    #activities .column{
+        height: 180px;
+        flex-direction: row;
+    }
+    #activities a{
+        height: 170px;
+    }
+    #activities .column a figure, #activities a .large{
+        height: 150px;
+    }
+    #activities .column a figure img, #activities a .large img{
+        height: 120px;
+    }
+    #activities img{
+        width: auto;
+    }
+    footer .category{
+        margin-right: 50px;
+    }
+}
+
+/*****smartphones*****/
+@media (max-width: 767px) {
+    body{
+        font-size: small;
+        text-align: center;
+    }
+    #container{
+        max-width: 767px;
+        min-width: 300px;
+        width:100%;
+        text-align: left;
+    }
+    header{
+        flex-direction: column;
+        text-align: center;
+        margin: 0;
+    }
+    main{
+        margin: 0;
+    }
+    h2{
+        padding: 0 20px;
+        text-align: left;
+    }
+    #logo{
+        padding: 0;
+    }
+    nav ul{
+        width: 100%;
+    }
+    nav ul li{
+        width: 50%;
+        border-bottom : 2px solid #F2F2F2;
+        justify-content: center;
+        padding-bottom: 10px ;
+    }
+    nav ul li:hover{
+        color:#0065FC;
+        border: none;
+        border-bottom: 2px solid #0065FC;
+    }
+    #search{
+        margin : 25px 20px 0px 20px;
+    }
+    .fa-search{
+        display: inline;
+    }
+    span{
+        display: none;
+    }
+    #search p{
+        margin: 0;
+    }
+    #icon{
+        border-radius: 15px;
+        width: auto;
+        margin-left: -10px;
+    }
+    input{
+        width: 75%;
+        max-width: 250px;
+    }
+    button{
+        border-radius: 25%;
+        width: 40px;
+    }
+    #more{
+        padding-left: 10px;
+    }
+    #more p{
+        padding-left: 10px;
+        width : 80%;
+    }
+    figure{
+        font-size: 90%;
+    }
+    #accommodations{
+        flex-direction: column-reverse;
+    }
+    aside{
+        margin: 0;
+        justify-items: center;
+        max-width: 100%;
+        width: 100%;
+        padding: 0 0 20px 0;
+    }
+    aside h2, article h2{
+        padding: 20px 35px 0;
+    }
+    article p a{
+        padding-left: 15px;
+    }
+    article{
+        background-color: inherit;
+        justify-items: center;
+        margin: 0px;
+        padding: 0;
+    }
+    article .flex-container{
+        justify-content: center;
+    }
+    article img{
+        height: 100px;
+        width: 350px;
+    }
+    article figure{
+        width: 300px;
+        max-width: 100%;
+        margin: 10px 0;
+    } 
+    #activities{
+        margin: 20px 0;
+    }
+    #activities .flex-container{
+        justify-content: center;
+    }
+    #activities .column{
+        height: 350px;
+    }
+    #activities a{
+        height: 170px;
+    }
+    #activities .column a figure, #activities a .large{
+        height: 150px;
+    }
+    #activities .column a figure img, #activities a .large img{
+        height: 110px;
+    }
+    #activities img{
+        width: auto;
+    }
+    #activities figure{
+        width: 300px;
+        text-align: left;
+    }
+    footer{
+        text-align: left;
+        flex-direction: column;
+        padding-left: 20px;
+    }
+    footer .category{
+        padding: 0;
+    }
+    footer ul{
+        padding: 0;
+    }
+}
